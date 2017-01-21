@@ -1,8 +1,9 @@
 import { check } from 'meteor/check'
 import moment from 'moment'
 
-import { Disbursements } from './disbursements-collection.js'
 import { canInsert } from '/imports/api/users/checker.js'
+import { Disbursements } from './disbursements-collection.js'
+
 
 Meteor.methods({
     'insert.Disbursement': (disbursement) => {
@@ -14,19 +15,19 @@ Meteor.methods({
             remark: String
         })
 
-        if (!Meteor.userId() || !canInsert(Meteor.user().access)) {
+        if (!Meteor.userId() || !canInsert(Meteor.user())) {
             throw new Meteor.Error('unauthorized', 'Access denied!')
         }
 
         if (disbursement.subcategory1 === '' || disbursement.subcategory2 === '' || disbursement.category === '' || disbursement.amount === '') {
             throw new Meteor.Error('Field Error', 'Fields cannot be empty')
-        } 
+        }
 
         disbursement.created = {
             by: Meteor.user().username,
             at: new Date()
         }
- 
+
         return Disbursements.insert(disbursement)
     },
 

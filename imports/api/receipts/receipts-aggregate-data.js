@@ -10,14 +10,12 @@ export const receiptsMonthlyPerformance = withData(() => {
     const receiptsList = []
 
     receipts.map((item, index) => {
-        // console.log(item.year[0].year)
         const objX = {
             name: moment().month(item._id - 1).format('MMM'),
             Months: item.total,
         }
         receiptsList.push(objX)
     })
-
     return { isDataLoading, receiptsList }
 })
 

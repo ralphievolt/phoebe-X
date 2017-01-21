@@ -8,7 +8,7 @@ import ManageSubCat from '../../components/page/sub-categories-page.jsx'
 import ReceiptTransaction from '../../components/page/receipt-page.jsx'
 import DisbursementTransaction from '../../components/page/disbursement-page.jsx'
 import { NotFoundPage } from '../../components/page/not-found.jsx'
-import Reports from '../../components/page/reports.jsx'
+
 import UserPage from '../../components/page/users-page.jsx'
 import SignUp from '../../components/user/sign-up.jsx'
 import SignIn from '../../components/user/sign-in.jsx'
@@ -26,8 +26,6 @@ export const Routes = () => (
         <Route path="/sign-up" component={ SignUp } />
         <Route path="/" component={App}>
             <IndexRoute component={Index} />
-
-            <Route path="/reports" component={ Reports } />
 
             <Route path="/disbursement-transaction" component={ DisbursementTransaction } />
             <Route path="/disbursements-monthly-performance" component={ DisbursementsMonthlyPerformance } />

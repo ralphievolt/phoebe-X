@@ -17,9 +17,7 @@ export default class UserList extends Component {
 
     _updateAccess = () => (event) => {
         const id = event.target.value
-        console.log(id)
-        console.log(this.state.access)
-
+       
         Meteor.call('update.UserAccess', id, this.state.access, function (err, res) {
             if (err) {
                 Bert.alert(err.reason, 'warning')

@@ -1,7 +1,7 @@
 import { check } from 'meteor/check'
 
-import { Receipts } from './receipts-collection.js'
 import { canInsert } from '/imports/api/users/checker.js'
+import { Receipts } from './receipts-collection.js'
 
 
 Meteor.methods({
@@ -12,7 +12,7 @@ Meteor.methods({
             amount: Number
         })
 
-        if (!Meteor.userId() || !canInsert(Meteor.user().access)) {
+        if (!Meteor.userId() || !canInsert(Meteor.user())) {
             throw new Meteor.Error('unauthorized', 'Access denied!')
         }
 

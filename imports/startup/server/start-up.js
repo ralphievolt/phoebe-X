@@ -1,3 +1,3 @@
 Meteor.startup(function () {
-    console.log('server started or restarted')
+    console.log('server started')
 })

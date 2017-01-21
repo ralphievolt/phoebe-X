@@ -10,7 +10,7 @@ Meteor.methods({
             category: String
         })
 
-         if (!Meteor.userId() || !isAdmin(Meteor.user().access)) {
+         if (!Meteor.userId() || !isAdmin(Meteor.user())) {
             throw new Meteor.Error('unauthorized', 'Access denied!')
         }
 
@@ -30,7 +30,7 @@ Meteor.methods({
         check(id, String)
         const stat = CategoriesCol.findOne(id).status
 
-         if (!Meteor.userId() || !isAdmin(Meteor.user().access)) {
+         if (!Meteor.userId() || !isAdmin(Meteor.user())) {
             throw new Meteor.Error('unauthorized', 'Access denied!')
         }
 

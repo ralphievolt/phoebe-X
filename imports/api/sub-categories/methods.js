@@ -26,7 +26,7 @@ Meteor.methods({
             }
         }
 
-        if (!Meteor.userId() || !isAdmin(Meteor.user().access)) {
+        if (!Meteor.userId() || !isAdmin(Meteor.user())) {
             throw new Meteor.Error('unauthorized', 'Access denied!')
         }
         if (subcat.subcategory1 === '' || subcat.category === '') {
@@ -45,7 +45,7 @@ Meteor.methods({
         check(id, String)
         const stat = SubCategoriesCol.findOne(id).status;
 
-        if (!Meteor.userId() || !isAdmin(Meteor.user().access)) {
+         if (!Meteor.userId() || !isAdmin(Meteor.user())) {
             throw new Meteor.Error('unauthorized', 'Access denied!')
         }
 

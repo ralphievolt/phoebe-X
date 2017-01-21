@@ -26,3 +26,4 @@ underscore
 orionsoft:react-meteor-data
 jcbernack:reactive-aggregate
 meteorhacks:aggregate
+npm-bcrypt

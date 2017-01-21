@@ -10,14 +10,12 @@ export const disbursementsMonthlyPerformance = withData(() => {
     const disbursementsList = []
 
     disbursements.map((item, index) => {
-        // console.log(item.year[0].year)
         const objX = {
             name: moment().month(item._id - 1).format('MMM'),
             Months: item.total,
         }
         disbursementsList.push(objX)
     })
-
     return { isDataLoading, disbursementsList }
 })
 

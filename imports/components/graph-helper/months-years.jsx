@@ -12,9 +12,7 @@ let initMonth = ''
 
 const _selectMonth = () => (event) => {
     event.preventDefault()
-
     initMonth = event.target.value
-   
 }
 
 const _selectYear = () => (event) => {
@@ -22,8 +20,6 @@ const _selectYear = () => (event) => {
     const yeaR = event.target.value
     const  initDate = initMonth + '-' + yeaR.toString()
     const startDate = moment(initDate).toDate()
-    console.log(startDate)
-    // appState.set('selectedYear', event.target.value)
 }
 
 export const MonthsDropdown = () => (

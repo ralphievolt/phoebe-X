@@ -46,8 +46,7 @@ export default class Header extends Component {
                         Reports
                             <i className="dropdown icon"></i>
                         <div className="menu">
-                            <Link className="item" to="/reports">Dashboard</Link>
-
+                            <div className="item"><h4>Dashboard</h4></div>
                             <div className="ui divider"></div>
                             <div className="item"><h4>Receipts</h4></div>
                             <Link className="item" to="/receipts-monthly-performance">Monthly Performance</Link>
