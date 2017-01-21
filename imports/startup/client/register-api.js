@@ -1,0 +1,6 @@
+import '/imports/api/categories/categories-collection.js'
+import '/imports/api/sub-categories/subcategories-collection.js'
+import '/imports/api/receipts/receipts-collection.js'
+import '/imports/api/receipts/receipts-local-collection.js'
+import '/imports/api/disbursements/disbursements-collection.js'
+import '/imports/api/disbursements/disbursements-local-collection.js'

@@ -1,0 +1,5 @@
+import '/imports/api/categories/index.js'
+import '/imports/api/sub-categories/index.js'
+import '/imports/api/users/index.js'
+import '/imports/api/receipts/index.js'
+import '/imports/api/disbursements/index.js'
