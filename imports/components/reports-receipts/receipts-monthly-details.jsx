@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 import { DateField, Calendar } from 'react-date-picker'
+import 'react-date-picker/index.css'
 import NumberFormat from 'react-number-format'
 
 import Loading from '../loader/loading.jsx'
