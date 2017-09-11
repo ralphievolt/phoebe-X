@@ -41,7 +41,13 @@ export default class InsertReceipt extends Component {
   _handleSubmit = () => event => {
     event.preventDefault();
     const receipt = this.state;
-
+    const diff = moment().dayOfYear() - moment(startD).dayOfYear();
+    
+    if (!(diff >= 0 && diff < 7)) {
+      Bert.alert("Entry is beyond cut-off date", "warning");
+      return;
+    }
+    
     this.setState({ subcategory1: "", category: "", amount: "" });
     $(".dropdown").dropdown("clear");
 
@@ -68,11 +74,11 @@ export default class InsertReceipt extends Component {
             onChange={this._selectCat()}
           >
             <option value="">select category</option>
-            {this.props.catList.map((item, index) =>
+            {this.props.catList.map((item, index) => (
               <option key={index} value={item.category}>
                 {item.category}
               </option>
-            )}
+            ))}
           </select>
         </div>
 
@@ -84,11 +90,11 @@ export default class InsertReceipt extends Component {
             onChange={this._selectSub()}
           >
             <option value="">select sub-category</option>
-            {this.props.subCatList.map((item, index) =>
+            {this.props.subCatList.map((item, index) => (
               <option key={index} value={item.subcategory1}>
                 {item.subcategory1}
               </option>
-            )}
+            ))}
           </select>
         </div>
 

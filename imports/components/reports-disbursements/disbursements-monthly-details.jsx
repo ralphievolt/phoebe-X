@@ -17,11 +17,16 @@ import Loading from "../loader/loading.jsx";
 import { appState } from "../../api/store/store.js";
 import { CustomizedLabel, CustomizedAxisTick } from "../graph-helper/index.jsx";
 import { disbursementsMonthlyDetails } from "/imports/api/disbursements/disbursements-aggregate-data.js";
+import { canView } from "/imports/api/users/checker.js";
 
 let startD = appState.get("dateChartDetails");
 const date = moment().format("YYYY-MM-DD");
 
 const _selectStartDate = (dateString, { dateMoment, timestamp }) => {
+  if (!Meteor.userId() || !canView(Meteor.user())) {
+    Bert.alert("You are not authorized to view reports", "warning");
+    return;
+  }
   startD = dateString;
 };
 
@@ -32,6 +37,13 @@ export default class DisbursementsMonthlyDetails extends Component {
   };
   _buttonShow = () => event => {
     event.preventDefault();
+    
+    // check if user is authorized or not
+    if (!Meteor.userId() || !canView(Meteor.user())) {
+      Bert.alert("You are not authorized to view reports", "warning");
+      return;
+    }
+
     if (moment(startD).format("D") !== "1") {
       Bert.alert("Please choose the first day of the month", "warning");
       return;

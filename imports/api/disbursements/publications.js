@@ -2,7 +2,7 @@ import { Disbursements } from "./disbursements-collection.js";
 import moment from "moment";
 
 Meteor.publish("disbursementsList", function() {
-  return Disbursements.find({}, { sort: { "created.at": -1 }, limit: 15 });
+  return Disbursements.find({}, { sort: { "date": -1 }, limit: 15 });
 });
 
 Meteor.publish("disbursement.Performance", function() {
@@ -15,14 +15,14 @@ Meteor.publish("disbursement.Performance", function() {
   const pipeline = [
     {
       $match: {
-        "created.at": { $gte: sixMonthsAgo, $lte: todaysDate }
+        "date": { $gte: sixMonthsAgo, $lte: todaysDate }
       }
     },
     {
       $group: {
         _id: {
-          month: { $month: "$created.at" },
-          year: { $year: "$created.at" }
+          month: { $month: "$date" },
+          year: { $year: "$date" }
         },
         amount: {
           $sum: "$amount"
@@ -63,7 +63,7 @@ Meteor.publish("disbursement.Details", function(date) {
   const pipeline = [
     {
       $match: {
-        "created.at": {
+        "date": {
           $gte: start,
           $lte: end
         }

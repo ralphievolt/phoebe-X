@@ -17,10 +17,10 @@ export default class InsertSubCategory extends Component {
         if (this.state.type === 'Disbursement') {
             return (
                 <div className="field">
-                    <label>sub-category 2</label>
+                    <label>program</label>
                     <input type="text"
                         name="subcategory2"
-                        placeholder="enter new sub-category"
+                        placeholder="enter new program"
                         onChange={this._inputSub2(event)}
                         value={this.state.subcategory2}
                         maxLength="30"

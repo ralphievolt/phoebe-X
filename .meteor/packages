@@ -18,7 +18,6 @@ shell-server@0.2.4            # Server-side component of the `meteor shell` comm
 
 static-html@1.1.11
 react-meteor-data
-zuuk:stale-session
 themeteorchef:bert
 check@1.2.5
 accounts-password@1.4.0

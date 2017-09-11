@@ -13,6 +13,8 @@ Meteor.methods({
     });
 
     if (!Meteor.userId() || !canInsert(Meteor.user())) {
+      console.log("yser", Meteor.userId());
+      console.log("can insert", canInsert(Meteor.user()));
       throw new Meteor.Error("unauthorized", "Access denied!");
     }
 
@@ -26,6 +28,7 @@ Meteor.methods({
       throw new Meteor.Error("Field Error", "Fields cannot be empty");
     }
 
+    receipt.date = new Date(receipt.date);
     receipt.created = {
       by: Meteor.user().username,
       at: new Date()

@@ -45,6 +45,12 @@ export default class InsertDisbursement extends Component {
     event.preventDefault();
 
     const disbursement = this.state;
+    const diff = moment().dayOfYear() - moment(startD).dayOfYear();
+
+    if (!(diff >= 0 && diff < 7)) {
+      Bert.alert("Entry is beyond cut-off date", "warning");
+      return;
+    }
     this.setState({
       subcategory2: "",
       category: "",
@@ -78,11 +84,11 @@ export default class InsertDisbursement extends Component {
             onChange={this._selectProg()}
           >
             <option value="">select program</option>
-            {this.props.programList.map((program, index) =>
+            {this.props.programList.map((program, index) => (
               <option key={index} value={program}>
                 {program}
               </option>
-            )}
+            ))}
           </select>
         </div>
 
@@ -94,11 +100,11 @@ export default class InsertDisbursement extends Component {
             onChange={this._selectCat()}
           >
             <option value="">select category</option>
-            {this.props.categoryList.map((category, index) =>
+            {this.props.categoryList.map((category, index) => (
               <option key={index} value={category}>
                 {category}
               </option>
-            )}
+            ))}
           </select>
         </div>
 
@@ -111,11 +117,11 @@ export default class InsertDisbursement extends Component {
             onChange={this._selectSub()}
           >
             <option value="">select sub-category</option>
-            {this.props.subCategoryList.map((item, index) =>
+            {this.props.subCategoryList.map((item, index) => (
               <option key={index} value={item.subcategory1}>
                 {item.subcategory1}
               </option>
-            )}
+            ))}
           </select>
         </div>
 

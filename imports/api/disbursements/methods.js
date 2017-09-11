@@ -29,6 +29,7 @@ Meteor.methods({
       throw new Meteor.Error("Field Error", "Fields cannot be empty");
     }
 
+    disbursement.date = new Date(disbursement.date);
     disbursement.created = {
       by: Meteor.user().username,
       at: new Date()
