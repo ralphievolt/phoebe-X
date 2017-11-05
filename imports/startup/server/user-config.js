@@ -5,7 +5,5 @@ Accounts.onCreateUser((options, user) => {
 });
 
 Accounts.config({
-    loginExpirationInDays: 0.02
-})
-
-
+  loginExpirationInDays: 0.5
+});
