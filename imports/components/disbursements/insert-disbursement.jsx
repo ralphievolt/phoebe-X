@@ -1,25 +1,21 @@
 import React, { Component } from "react";
 import { Meteor } from "meteor/meteor";
 import moment from "moment";
-import { DateField, Calendar } from "react-date-picker";
+import DatePicker from "react-datepicker";
 
 import { appState } from "../../api/store/store.js";
 import { withDisbursement } from "/imports/api/sub-categories/subcategories-show-data.js";
-
-let startD = appState.get("dateChartDetails");
-const date = moment().format("YYYY-MM-DD");
-const _selectStartDate = (dateString, { dateMoment, timestamp }) => {
-  startD = dateString;
-};
+import "react-datepicker/dist/react-datepicker.css";
 
 @withDisbursement
 export default class InsertDisbursement extends Component {
   state = {
-    subcategory2: "",
-    category: "",
-    subcategory1: "",
     amount: 0,
-    remark: ""
+    category: "",
+    date: moment(),
+    remark: "",
+    subcategory1: "",
+    subcategory2: ""
   };
   _selectProg = () => event => {
     this.setState({ subcategory2: event.target.value });
@@ -44,6 +40,7 @@ export default class InsertDisbursement extends Component {
   _handleSubmit = () => event => {
     event.preventDefault();
 
+    const startD = moment(this.state.date).format("YYYY-MM-DD");
     const disbursement = this.state;
     const diff = moment().dayOfYear() - moment(startD).dayOfYear();
 
@@ -51,12 +48,7 @@ export default class InsertDisbursement extends Component {
       Bert.alert("Entry is beyond cut-off date", "warning");
       return;
     }
-    this.setState({
-      subcategory2: "",
-      category: "",
-      subcategory1: "",
-      amount: ""
-    });
+    this.setState({ amount: 0 });
     $(".dropdown").dropdown("clear");
 
     disbursement.date = startD;
@@ -71,8 +63,21 @@ export default class InsertDisbursement extends Component {
     });
   };
 
+  _handleCalendar = date => {
+    this.setState({
+      date: date
+    });
+  };
+
   render() {
-    const { subcategory1, subcategory2, category, amount, remark } = this.state;
+    const {
+      subcategory1,
+      subcategory2,
+      category,
+      amount,
+      remark,
+      date
+    } = this.state;
 
     return (
       <form className="ui form" onSubmit={this._handleSubmit()}>
@@ -125,12 +130,12 @@ export default class InsertDisbursement extends Component {
           </select>
         </div>
 
-        <div className="field">
-          <label>first day of the month</label>
-          <DateField
-            dateFormat="YYYY-MM-DD"
-            date={date}
-            onChange={_selectStartDate}
+        <div className="field fluid">
+          <label>reciept date</label>
+          <DatePicker
+            dateFormat="MMMM D, YYYY"
+            selected={date}
+            onChange={this._handleCalendar}
           />
         </div>
 

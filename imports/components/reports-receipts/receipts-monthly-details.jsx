@@ -9,51 +9,50 @@ import {
   Tooltip,
   Legend
 } from "recharts";
-import { DateField, Calendar } from "react-date-picker";
-import "react-date-picker/index.css";
 import NumberFormat from "react-number-format";
+import DatePicker from "react-datepicker";
 
+import "react-datepicker/dist/react-datepicker.css";
 import Loading from "../loader/loading.jsx";
 import { appState } from "../../api/store/store.js";
 import { CustomizedLabel, CustomizedAxisTick } from "../graph-helper/index.jsx";
 import { receiptsMonthlyDetails } from "/imports/api/receipts/receipts-aggregate-data.js";
 import { canView } from "/imports/api/users/checker.js";
 
-let startD = appState.get("dateChartDetails");
-const date = moment().format("YYYY-MM-DD");
-
-const _selectStartDate = (dateString, { dateMoment, timestamp }) => {
-  if (!Meteor.userId() || !canView(Meteor.user())) {
-    Bert.alert("You are not authorized to view reports", "warning");
-    return;
-  }
-  startD = dateString;
-};
-
 @receiptsMonthlyDetails
 export default class ReceiptsMonthlyDetails extends Component {
+  state = {
+    date: moment(appState.get("dateChartDetails"))
+  };
+
   _format = number => {
     return number.toFixed(2);
   };
+
+  _handleCalendar = dyt => {
+    this.setState({
+      date: dyt
+    });
+    appState.set(
+      "dateChartDetails",
+      moment(this.state.date).format("MMMM 1, YYYY")
+    );
+  };
+
   _buttonShow = () => event => {
     event.preventDefault();
 
-    // check if user is authorized or not
     if (!Meteor.userId() || !canView(Meteor.user())) {
       Bert.alert("You are not authorized to view reports", "warning");
       return;
     }
-
-    if (moment(startD).format("D") !== "1") {
-      Bert.alert("Please choose the first day of the month", "warning");
-      return;
-    }
-    appState.set("dateChartDetails", startD);
   };
+
   _renderData = () => {
     if (this.props.isDataLoading) {
       return <Loading />;
     }
+
     return (
       <BarChart
         width={1100}
@@ -77,8 +76,9 @@ export default class ReceiptsMonthlyDetails extends Component {
     );
   };
   render() {
-    const year = moment(startD).format("YYYY");
-    const month = moment(startD).format("MMMM");
+    const year = moment(this.state.date).format("YYYY");
+    const month = moment(this.state.date).format("MMMM");
+
     return (
       <div id="content" className="ui main container">
         <form className="ui form" onSubmit={this._buttonShow()}>
@@ -91,10 +91,10 @@ export default class ReceiptsMonthlyDetails extends Component {
             <div className="three fields">
               <div className="three wide field">
                 <label>first day of the month</label>
-                <DateField
-                  dateFormat="YYYY-MM-DD"
-                  date={date}
-                  onChange={_selectStartDate}
+                <DatePicker
+                  dateFormat="MMMM 1, YYYY"
+                  selected={this.state.date}
+                  onChange={this._handleCalendar}
                 />
               </div>
               <div className="one wide field">

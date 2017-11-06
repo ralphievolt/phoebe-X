@@ -1,25 +1,22 @@
 import React, { Component } from "react";
 import { Meteor } from "meteor/meteor";
-import { DateField, Calendar } from "react-date-picker";
 import moment from "moment";
+import DatePicker from "react-datepicker";
 
 import { appState } from "../../api/store/store.js";
 import { withCategoriesReceipt } from "/imports/api/categories/categories-show-data.js";
 import { withSubCategoriesFiltered } from "/imports/api/sub-categories/subcategories-show-data.js";
 
-let startD = appState.get("dateChartDetails");
-const date = moment().format("YYYY-MM-DD");
-const _selectStartDate = (dateString, { dateMoment, timestamp }) => {
-  startD = dateString;
-};
+import "react-datepicker/dist/react-datepicker.css";
 
 @withCategoriesReceipt
 @withSubCategoriesFiltered
 export default class InsertReceipt extends Component {
   state = {
+    amount: 0,
     category: "",
-    subcategory1: "",
-    amount: 0
+    date: moment(),
+    subcategory1: ""
   };
   _selectCat = () => event => {
     const val = event.target.value;
@@ -40,15 +37,26 @@ export default class InsertReceipt extends Component {
   };
   _handleSubmit = () => event => {
     event.preventDefault();
+
+    const startD = moment(this.state.date).format("YYYY-MM-DD");
     const receipt = this.state;
     const diff = moment().dayOfYear() - moment(startD).dayOfYear();
-    
+
     if (!(diff >= 0 && diff < 7)) {
       Bert.alert("Entry is beyond cut-off date", "warning");
       return;
     }
-    
-    this.setState({ subcategory1: "", category: "", amount: "" });
+    if (
+      receipt.subcategory1 === "" ||
+      receipt.category === "" ||
+      receipt.amount === "" ||
+      receipt.date === "" ||
+      receipt.amount === 0
+    ) {
+      Bert.alert("Fields cannot be empty or zero", "warning");
+      return;
+    }
+
     $(".dropdown").dropdown("clear");
 
     receipt.date = startD;
@@ -61,9 +69,16 @@ export default class InsertReceipt extends Component {
         Bert.alert("Receipt amount added successfully", "success");
       }
     });
+    this.setState({ subcategory1: "", category: "", amount: 0 });
+  };
+
+  _handleCalendar = date => {
+    this.setState({
+      date: date
+    });
   };
   render() {
-    const { subcategory1, category, amount } = this.state;
+    const { subcategory1, category, amount, date } = this.state;
     return (
       <form className="ui form" onSubmit={this._handleSubmit()}>
         <div className="field">
@@ -98,12 +113,12 @@ export default class InsertReceipt extends Component {
           </select>
         </div>
 
-        <div className="field">
-          <label>first day of the month</label>
-          <DateField
-            dateFormat="YYYY-MM-DD"
-            date={date}
-            onChange={_selectStartDate}
+        <div className="field fluid">
+          <label>reciept date</label>
+          <DatePicker
+            dateFormat="MMMM D, YYYY"
+            selected={date}
+            onChange={this._handleCalendar}
           />
         </div>
 

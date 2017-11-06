@@ -13,8 +13,6 @@ Meteor.methods({
     });
 
     if (!Meteor.userId() || !canInsert(Meteor.user())) {
-      console.log("yser", Meteor.userId());
-      console.log("can insert", canInsert(Meteor.user()));
       throw new Meteor.Error("unauthorized", "Access denied!");
     }
 
@@ -34,6 +32,8 @@ Meteor.methods({
       at: new Date()
     };
 
-    return Receipts.insert(receipt);
+    if (Meteor.isServer) {
+      return Receipts.insert(receipt);
+    }
   }
 });

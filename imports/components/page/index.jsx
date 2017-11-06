@@ -3,10 +3,11 @@ import React from "react";
 export const Index = () => {
   return (
     <div id="content" className="ui main container">
-      <h3>P H O E B E : the digital deacon</h3>
+      <h3>P h o e b e is the church's digital deacon</h3>
       <h4>
         This project is dedicated to our brothers and sisters in Christ who
-        tirelessly dedicated their time and effort to help church as deacons{" "}
+        tirelessly dedicated their time and effort to help thier church as
+        deacons{" "}
       </h4>
 
       <h3>1 Timothy 3:13 ((KJV)</h3>
