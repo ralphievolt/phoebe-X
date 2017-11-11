@@ -2,7 +2,7 @@ import { Disbursements } from "./disbursements-collection.js";
 import moment from "moment";
 
 Meteor.publish("disbursementsList", function() {
-  return Disbursements.find({}, { sort: { "date": -1 }, limit: 15 });
+  return Disbursements.find({}, { sort: { date: -1 }, limit: 15 });
 });
 
 Meteor.publish("disbursement.Performance", function() {
@@ -11,11 +11,13 @@ Meteor.publish("disbursement.Performance", function() {
     .subtract(6, "months")
     .endOf("month")
     .toDate();
-  const sixMonthsAgo = moment(initSixMonthsAgo).add(1, "day").toDate();
+  const sixMonthsAgo = moment(initSixMonthsAgo)
+    .add(1, "day")
+    .toDate();
   const pipeline = [
     {
       $match: {
-        "date": { $gte: sixMonthsAgo, $lte: todaysDate }
+        date: { $gte: sixMonthsAgo, $lte: todaysDate }
       }
     },
     {
@@ -57,13 +59,18 @@ Meteor.publish("disbursement.Performance", function() {
 Meteor.publish("disbursement.Details", function(date) {
   check(date, String);
 
-  const start = moment(date).toDate();
-  const end = moment(start).endOf("month").toDate();
+  const start = moment(date)
+    .add(1, "day")
+    .toDate();
+
+  const end = moment(start)
+    .endOf("month")
+    .toDate();
 
   const pipeline = [
     {
       $match: {
-        "date": {
+        date: {
           $gte: start,
           $lte: end
         }

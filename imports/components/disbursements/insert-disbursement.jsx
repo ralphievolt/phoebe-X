@@ -48,8 +48,17 @@ export default class InsertDisbursement extends Component {
       Bert.alert("Entry is beyond cut-off date", "warning");
       return;
     }
-    this.setState({ amount: 0 });
-    $(".dropdown").dropdown("clear");
+
+    if (
+      disbursement.subcategory1 === "" ||
+      disbursement.category === "" ||
+      disbursement.amount === "" ||
+      disbursement.date === "" ||
+      disbursement.amount === 0
+    ) {
+      Bert.alert("Fields cannot be empty or zero", "warning");
+      return;
+    }
 
     disbursement.date = startD;
     disbursement.amount = parseFloat(disbursement.amount);
@@ -61,6 +70,8 @@ export default class InsertDisbursement extends Component {
         Bert.alert("Disbursement amount added successfully", "success");
       }
     });
+    $(".dropdown").dropdown("clear");
+    this.setState({ amount: 0, remark: "" });
   };
 
   _handleCalendar = date => {
@@ -156,6 +167,7 @@ export default class InsertDisbursement extends Component {
             maxLength="160"
             placeholder="add remarks or reference documents"
             onChange={this._inputRemark()}
+            value={remark}
           />
         </div>
 

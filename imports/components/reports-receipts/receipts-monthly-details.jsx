@@ -22,7 +22,7 @@ import { canView } from "/imports/api/users/checker.js";
 @receiptsMonthlyDetails
 export default class ReceiptsMonthlyDetails extends Component {
   state = {
-    date: moment(appState.get("dateChartDetails"))
+    date: moment()
   };
 
   _format = number => {
@@ -33,10 +33,6 @@ export default class ReceiptsMonthlyDetails extends Component {
     this.setState({
       date: dyt
     });
-    appState.set(
-      "dateChartDetails",
-      moment(this.state.date).format("MMMM 1, YYYY")
-    );
   };
 
   _buttonShow = () => event => {
@@ -46,8 +42,24 @@ export default class ReceiptsMonthlyDetails extends Component {
       Bert.alert("You are not authorized to view reports", "warning");
       return;
     }
+
+    appState.set(
+      "dateChartDetails",
+      moment(this.state.date).format("YYYY-MM-DD")
+    );
   };
 
+  componentDidMount = () => {
+    const x = moment(this.state.date).format("YYYY-MM-DD");
+    const y = appState.get("dateChartDetails");
+
+    if (x !== y) {
+      appState.set(
+        "dateChartDetails",
+        moment(this.state.date).format("YYYY-MM-DD")
+      );
+    }
+  };
   _renderData = () => {
     if (this.props.isDataLoading) {
       return <Loading />;
@@ -77,7 +89,11 @@ export default class ReceiptsMonthlyDetails extends Component {
   };
   render() {
     const year = moment(this.state.date).format("YYYY");
-    const month = moment(this.state.date).format("MMMM");
+    const month = moment(this.state.date).format("MMMM DD");
+    const emonth = moment(this.state.date)
+      .endOf("month")
+      .toDate();
+    const last = moment(emonth).format("DD");
 
     return (
       <div id="content" className="ui main container">
@@ -90,9 +106,9 @@ export default class ReceiptsMonthlyDetails extends Component {
             </div>
             <div className="three fields">
               <div className="three wide field">
-                <label>first day of the month</label>
+                <label>select day of the month</label>
                 <DatePicker
-                  dateFormat="MMMM 1, YYYY"
+                  dateFormat="MMMM DD, YYYY"
                   selected={this.state.date}
                   onChange={this._handleCalendar}
                 />
@@ -107,9 +123,9 @@ export default class ReceiptsMonthlyDetails extends Component {
           </div>
         </form>
         <div className="ui celled grid">
-          <h2>
-            {month} {year} Receipts Details
-          </h2>
+          <h3>
+            {month} ~ {last} , {year} Receipts Details
+          </h3>
           {this._renderData()}
         </div>
         <div className="ui celled grid">

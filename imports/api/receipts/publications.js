@@ -2,7 +2,7 @@ import { Receipts } from "./receipts-collection.js";
 import moment from "moment";
 
 Meteor.publish("receiptsList", function() {
-  return Receipts.find({}, { sort: { "date": -1 }, limit: 15 });
+  return Receipts.find({}, { sort: { date: -1 }, limit: 15 });
 });
 
 Meteor.publish("receipts.Performance", function() {
@@ -14,10 +14,11 @@ Meteor.publish("receipts.Performance", function() {
   const sixMonthsAgo = moment(initSixMonthsAgo)
     .add(1, "day")
     .toDate();
+
   const pipeline = [
     {
       $match: {
-        "date": { $gte: sixMonthsAgo, $lte: todaysDate }
+        date: { $gte: sixMonthsAgo, $lte: todaysDate }
       }
     },
     {
@@ -59,7 +60,10 @@ Meteor.publish("receipts.Performance", function() {
 Meteor.publish("receipts.Details", function(date) {
   check(date, String);
 
-  const start = moment(date).toDate();
+  const start = moment(date)
+    .add(1, "day")
+    .toDate();
+
   const end = moment(start)
     .endOf("month")
     .toDate();
@@ -67,7 +71,7 @@ Meteor.publish("receipts.Details", function(date) {
   const pipeline = [
     {
       $match: {
-        "date": {
+        date: {
           $gte: start,
           $lte: end
         }
