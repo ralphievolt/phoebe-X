@@ -13,6 +13,7 @@ export default class InsertDisbursement extends Component {
     amount: 0,
     category: "",
     date: moment(),
+    sDate: "",
     remark: "",
     subcategory1: "",
     subcategory2: ""
@@ -41,7 +42,15 @@ export default class InsertDisbursement extends Component {
     event.preventDefault();
 
     const startD = moment(this.state.date).format("YYYY-MM-DD");
-    const disbursement = this.state;
+    const disbursement = {
+      amount: this.state.amount,
+      category: this.state.category,
+      sDate: startD,
+      remark: this.state.remark,
+      subcategory1: this.state.subcategory1,
+      subcategory2: this.state.subcategory2
+    };
+
     const diff = moment().dayOfYear() - moment(startD).dayOfYear();
 
     if (!(diff >= 0 && diff < 7)) {
@@ -53,14 +62,14 @@ export default class InsertDisbursement extends Component {
       disbursement.subcategory1 === "" ||
       disbursement.category === "" ||
       disbursement.amount === "" ||
-      disbursement.date === "" ||
+      disbursement.sDate === "" ||
       disbursement.amount === 0
     ) {
       Bert.alert("Fields cannot be empty or zero", "warning");
       return;
     }
 
-    disbursement.date = startD;
+    disbursement.sDate = startD;
     disbursement.amount = parseFloat(disbursement.amount);
 
     Meteor.call("insert.Disbursement", disbursement, function(err, res) {

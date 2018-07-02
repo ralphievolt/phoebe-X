@@ -62,10 +62,7 @@ export default class Login extends Component {
           </form>
           <p />
           <div className="field">
-            <button
-              className="ui basic green button fluid"
-              onClick={this._signUp}
-            >
+            <button className="ui basic  button fluid" onClick={this._signUp}>
               sign up
             </button>
           </div>

@@ -10,7 +10,7 @@ Meteor.methods({
       category: String,
       subcategory1: String,
       subcategory2: String,
-      date: String,
+      sDate: String,
       amount: Number,
       remark: String
     });
@@ -24,12 +24,13 @@ Meteor.methods({
       disbursement.subcategory2 === "" ||
       disbursement.category === "" ||
       disbursement.amount === "" ||
-      disbursement.date === ""
+      disbursement.sDate === ""
     ) {
       throw new Meteor.Error("Field Error", "Fields cannot be empty");
     }
 
-    disbursement.date = new Date(disbursement.date);
+    disbursement.date = new Date(disbursement.sDate);
+    delete disbursement.sDate;
     disbursement.created = {
       by: Meteor.user().username,
       at: new Date()

@@ -4,9 +4,9 @@ import moment from "moment";
 import DatePicker from "react-datepicker";
 
 import { appState } from "../../api/store/store.js";
+import { canInsert } from "/imports/api/users/checker.js";
 import { withCategoriesReceipt } from "/imports/api/categories/categories-show-data.js";
 import { withSubCategoriesFiltered } from "/imports/api/sub-categories/subcategories-show-data.js";
-
 import "react-datepicker/dist/react-datepicker.css";
 
 @withCategoriesReceipt
@@ -16,6 +16,7 @@ export default class InsertReceipt extends Component {
     amount: 0,
     category: "",
     date: moment(),
+    sDate: "",
     subcategory1: ""
   };
   _selectCat = () => event => {
@@ -39,7 +40,13 @@ export default class InsertReceipt extends Component {
     event.preventDefault();
 
     const startD = moment(this.state.date).format("YYYY-MM-DD");
-    const receipt = this.state;
+    const receipt = {
+      amount: this.state.amount,
+      category: this.state.category,
+      sDate: startD,
+      subcategory1: this.state.subcategory1
+    };
+
     const diff = moment().dayOfYear() - moment(startD).dayOfYear();
 
     if (!(diff >= 0 && diff < 7)) {
@@ -50,7 +57,7 @@ export default class InsertReceipt extends Component {
       receipt.subcategory1 === "" ||
       receipt.category === "" ||
       receipt.amount === "" ||
-      receipt.date === "" ||
+      receipt.sDate === "" ||
       receipt.amount === 0
     ) {
       Bert.alert("Fields cannot be empty or zero", "warning");
@@ -59,9 +66,12 @@ export default class InsertReceipt extends Component {
 
     $(".dropdown").dropdown("clear");
 
-    receipt.date = startD;
     receipt.amount = parseFloat(receipt.amount);
 
+    if (!Meteor.userId() || !canInsert(Meteor.user())) {
+      Bert.alert("Access denied!", "warning");
+      return;
+    }
     Meteor.call("insert.Receipt", receipt, function(err, res) {
       if (err) {
         Bert.alert(err.reason, "warning");
@@ -69,6 +79,7 @@ export default class InsertReceipt extends Component {
         Bert.alert("Receipt amount added successfully", "success");
       }
     });
+
     this.setState({ subcategory1: "", category: "", amount: 0 });
   };
 
@@ -125,9 +136,10 @@ export default class InsertReceipt extends Component {
         <div className="field">
           <label>receipt amount</label>
           <input
+            id="recInput"
             type="number"
             placeholder="enter receipt amount"
-            onChange={this._inputAmount()}
+            onChange={this._inputAmount(event)}
             value={amount}
           />
         </div>

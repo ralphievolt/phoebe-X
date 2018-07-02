@@ -38,7 +38,7 @@ export default class Header extends Component {
     const userDataAvailable = currentUser !== undefined;
     const loggedIn = currentUser && userDataAvailable;
 
-    const canViewUsers = console.log(currentUser.access);
+    // const canViewUsers = console.log(currentUser.access);
 
     return (
       <div>

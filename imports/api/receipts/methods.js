@@ -8,7 +8,7 @@ Meteor.methods({
     check(receipt, {
       subcategory1: String,
       category: String,
-      date: String,
+      sDate: String,
       amount: Number
     });
 
@@ -20,13 +20,14 @@ Meteor.methods({
       receipt.subcategory1 === "" ||
       receipt.category === "" ||
       receipt.amount === "" ||
-      receipt.date === "" ||
-      receipt.amount === "0"
+      receipt.sDate === "" ||
+      receipt.amount === 0
     ) {
       throw new Meteor.Error("Field Error", "Fields cannot be empty");
     }
 
-    receipt.date = new Date(receipt.date);
+    receipt.date = new Date(receipt.sDate);
+    delete receipt.sDate;
     receipt.created = {
       by: Meteor.user().username,
       at: new Date()
