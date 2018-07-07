@@ -2,7 +2,7 @@ import { Receipts } from "./receipts-collection.js";
 import moment from "moment";
 
 Meteor.publish("receiptsList", function() {
-  return Receipts.find({}, { sort: { date: -1 }, limit: 15 });
+  return Receipts.find({}, { sort: { date: -1 }, limit: 300 });
 });
 
 Meteor.publish("receipts.Performance", function() {

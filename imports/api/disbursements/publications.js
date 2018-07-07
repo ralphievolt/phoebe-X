@@ -2,7 +2,7 @@ import { Disbursements } from "./disbursements-collection.js";
 import moment from "moment";
 
 Meteor.publish("disbursementsList", function() {
-  return Disbursements.find({}, { sort: { date: -1 }, limit: 15 });
+  return Disbursements.find({}, { sort: { date: -1 }, limit: 300 });
 });
 
 Meteor.publish("disbursement.Performance", function() {

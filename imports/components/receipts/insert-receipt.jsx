@@ -49,10 +49,10 @@ export default class InsertReceipt extends Component {
 
     const diff = moment().dayOfYear() - moment(startD).dayOfYear();
 
-    if (!(diff >= 0 && diff < 7)) {
-      Bert.alert("Entry is beyond cut-off date", "warning");
-      return;
-    }
+    // if (!(diff >= 0 && diff < 7)) {
+    //   Bert.alert("Entry is beyond cut-off date", "warning");
+    //   return;
+    // }
     if (
       receipt.subcategory1 === "" ||
       receipt.category === "" ||
