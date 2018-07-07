@@ -38,6 +38,7 @@ export default class DisbursementList extends Component {
                 <td>
                   <NumberFormat
                     value={this._format(item.amount)}
+                    allowNegative={true}
                     displayType={"text"}
                     thousandSeparator={true}
                     prefix={"Php  "}
