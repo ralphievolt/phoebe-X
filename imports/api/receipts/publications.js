@@ -6,19 +6,23 @@ Meteor.publish("receiptsList", function() {
 });
 
 Meteor.publish("receipts.Performance", function() {
-  const todaysDate = moment().toDate();
+  const todaysDate = moment().format("YYYY-MM-DD") + "T23:59:59.999Z";
   const initSixMonthsAgo = moment()
     .subtract(6, "months")
     .endOf("month")
     .toDate();
+
   const sixMonthsAgo = moment(initSixMonthsAgo)
     .add(1, "day")
-    .toDate();
+    .format("YYYY-MM-DD");
+
+  const start = new Date(sixMonthsAgo + "T00:00:00.000Z");
+  const end = new Date(todaysDate);
 
   const pipeline = [
     {
       $match: {
-        date: { $gte: sixMonthsAgo, $lte: todaysDate }
+        date: { $gte: start, $lte: end }
       }
     },
     {
@@ -60,13 +64,13 @@ Meteor.publish("receipts.Performance", function() {
 Meteor.publish("receipts.Details", function(date) {
   check(date, String);
 
-  const start = moment(date)
-    .add(1, "day")
-    .toDate();
-
-  const end = moment(start)
+  let start = date + "T00:00:00.000Z";
+  let end = moment(start)
     .endOf("month")
-    .toDate();
+    .format("YYYY-MM-DD");
+
+  start = new Date(start);
+  end = new Date(end + "T23:59:59.999Z");
 
   const pipeline = [
     {
