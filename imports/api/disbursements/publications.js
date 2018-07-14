@@ -1,8 +1,15 @@
 import { Disbursements } from "./disbursements-collection.js";
 import moment from "moment";
+import { check } from "meteor/check";
 
 Meteor.publish("disbursementsList", function() {
   return Disbursements.find({}, { sort: { date: -1 }, limit: 300 });
+});
+Meteor.publish("disbursementsVouchers", function(voucher) {
+  check(voucher, String);
+
+  if (voucher === "") return;
+  return Disbursements.find({ remark: { $regex: voucher } });
 });
 
 Meteor.publish("disbursement.Performance", function() {

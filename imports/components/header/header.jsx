@@ -60,9 +60,10 @@ export default class Header extends Component {
             Reports
             <i className="dropdown icon" />
             <div className="menu">
-              <div className="item">
-                <h4>Dashboard</h4>
-              </div>
+              <Link className="item" to="/disbursements-by-voucher">
+                <h4>Search Voucher</h4>
+              </Link>
+
               <div className="ui divider" />
               <div className="item">
                 <h4>Receipts</h4>

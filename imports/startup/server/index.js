@@ -1,3 +1,3 @@
-import './register-api.js'
-import './start-up.js'
-import './user-config.js'
+import "./start-up.js";
+import "./register-api.js";
+import "./user-config.js";

@@ -1,3 +1,3 @@
-Meteor.startup(function () {
-    console.log('server started')
-})
+Meteor.startup(function() {
+  console.log("server started");
+});

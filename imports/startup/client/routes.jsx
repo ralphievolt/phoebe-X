@@ -18,8 +18,9 @@ import ReceiptsMonthlyPerformance from "../../components/reports-receipts/receip
 import ReceiptsMonthlyDetails from "../../components/reports-receipts/receipts-monthly-details.jsx";
 import DisbursementsMonthlyPerformance from "../../components/reports-disbursements/disbursements-monthly-performance.jsx";
 import DisbursementsMonthlyDetails from "../../components/reports-disbursements/disbursements-monthly-details.jsx";
+import DisbursementsByVoucher from "../../components/reports-disbursements/disbursements-by-voucher.jsx";
 
-export const Routes = () =>
+export const Routes = () => (
   <Router history={browserHistory}>
     <Route path="/sign-in" component={SignIn} />
     <Route path="/sign-up" component={SignUp} />
@@ -38,6 +39,10 @@ export const Routes = () =>
         path="/disbursements-monthly-details"
         component={DisbursementsMonthlyDetails}
       />
+      <Route
+        path="/disbursements-by-voucher"
+        component={DisbursementsByVoucher}
+      />
 
       <Route path="/receipt-transaction" component={ReceiptTransaction} />
       <Route
@@ -55,6 +60,7 @@ export const Routes = () =>
       <Route path="/change-password" component={ChangePwd} />
       <Route path="*" component={NotFoundPage} />
     </Route>
-  </Router>;
+  </Router>
+);
 
 // reference: https://themeteorchef.com/snippets/react-router-basics/
